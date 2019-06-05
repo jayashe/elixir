@@ -262,6 +262,11 @@ defmodule IEx.Evaluator do
 
     iex_state = %{iex_state | cache: '', counter: iex_state.counter + 1}
     state = %{state | env: env, scope: scope, binding: binding}
+
+    if IEx.Config.send_messages_on_command?() do
+      :rpc.call(:"journal@jamess-mbp", Journal, :record_entry, [%{code: code, result: result}])
+    end
+
     {iex_state, update_history(state, line, code, result)}
   end
 

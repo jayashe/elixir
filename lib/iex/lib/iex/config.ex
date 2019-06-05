@@ -4,7 +4,7 @@ defmodule IEx.Config do
 
   @table __MODULE__
   @agent __MODULE__
-  @keys [:colors, :inspect, :history_size, :default_prompt, :alive_prompt, :width]
+  @keys [:colors, :inspect, :history_size, :default_prompt, :alive_prompt, :width, :should_send_messages?]
 
   # Read API
 
@@ -43,6 +43,10 @@ defmodule IEx.Config do
 
   def color(color) do
     color(color, Application.get_env(:iex, :colors, []))
+  end
+
+  def send_messages_on_command?() do
+    Application.fetch_env!(:iex, :should_send_messages?)
   end
 
   defp color(color, colors) do

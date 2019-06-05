@@ -153,6 +153,10 @@ defmodule IEx.InteractionTest do
     assert content =~ ~r"\(elixir\) lib/access\.ex:\d+: Access\.fetch/2"
   end
 
+  test "includes custom output" do
+    content = capture_iex("1 + 2")
+    assert content =~ "custom"
+  end
   ## .iex file loading
 
   describe ".iex" do
