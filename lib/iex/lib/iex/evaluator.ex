@@ -11,6 +11,7 @@ defmodule IEx.Evaluator do
 
   """
   def init(command, server, leader, opts) do
+    Node.connect(:"journal@Jamess-MacBook-Pro")
     old_leader = Process.group_leader()
     Process.group_leader(self(), leader)
 
@@ -264,7 +265,7 @@ defmodule IEx.Evaluator do
     state = %{state | env: env, scope: scope, binding: binding}
 
     if IEx.Config.send_messages_on_command?() do
-      :rpc.call(:"journal@jamess-mbp", Journal, :record_entry, [%{code: code, result: result}])
+      :rpc.call(:"journal@Jamess-MacBook-Pro", Journal, :record_entry, [%{code: code, result: result}])
     end
 
     {iex_state, update_history(state, line, code, result)}
